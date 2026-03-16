@@ -143,6 +143,9 @@ clawhub inspect my-skill --json
 # Install latest version
 clawhub install my-skill
 
+# Install to specific directory (recommended for agent environments)
+clawhub install my-skill --dir .agents/skills
+
 # Install specific version
 clawhub install my-skill --version 1.2.3
 
@@ -152,6 +155,12 @@ clawhub uninstall my-skill
 # Uninstall non-interactively
 clawhub uninstall my-skill --no-input --yes
 ```
+
+**Important: Use `--dir` parameter**
+- Most agent environments only recognize skills installed in `.agents/skills/` directory
+- Always specify `--dir .agents/skills` when installing skills for agent use
+- Without `--dir`, skills are installed to `skills/` directory and may not be recognized
+- Example: `clawhub install my-skill --dir .agents/skills`
 
 **What install writes:**
 - `<workdir>/.clawhub/lock.json` — lockfile (legacy: `.clawdhub`)
@@ -186,9 +195,19 @@ clawhub update --all --no-input --force
 ### List Installed Skills
 
 ```bash
-# List from lockfile
+# List from lockfile (current workdir)
 clawhub list
+
+# List from specific workdir
+clawhub list --workdir /path/to/workspace
 ```
+
+**Important: Path dependency**
+- `clawhub list` only shows skills installed in the current workdir
+- By default, workdir is the current directory (cwd)
+- Lockfile location: `<workdir>/.clawhub/lock.json`
+- To list skills from a different directory, use `--workdir` parameter
+- Example: `clawhub list --workdir D:\agentSpace`
 
 ---
 
